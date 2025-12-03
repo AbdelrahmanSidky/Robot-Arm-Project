@@ -12,15 +12,21 @@ For this project we used a 3D printed robot arm with 5 degrees of freedom design
 
 # Methods
 To develop the system we first needed to create the physical arm. We were provided with the printed parts from Dejan’s STL files. We removed the supports on all of these parts before assembling. We then assembled the arm with the pictures in Dejan’s tutorial. Each piece was effectively connected by the servo on the previous piece. For the servo connections we screwed into the 3D printed material directly. If screws were too long to fit, we added washers and spacers to compensate. The claw assembly was assembled by making the general shape and adding a #4 bolt and nut at each hole. For the driven gear we added 3 washers below so it would interlock with the driving gear. We used fully threaded bolts since we had access to some, but for this project partially threaded would be better.
+
 The circuit shown in "circuit_diagram" was used. Each servo was connected to the voltage from the 5 Volt source. Each servo was then also connected to an arduino pin for the output. Since we only used 5 of the 6 servos for our path, the provided code uses pins 3-7. We used the external power source to ensure each servo was working, since the arduino output is not truly 5 Volts. On the robot, we used adhesives and zip ties to keep wires away from the claw.
+
 In the beginning we were using Arduino IDE with the servo.h library to control the servos, but we had a lot of problems from stability to angles, so we developed our own code from scratch in AVR C. Instead of using a servo library, we developed our own code to control the servos using the internal AVR timer one. We used CTC mode with timer one to generate PWM with a 20 micro second period to control the servos. In the code we control the time of the high pulse which represents an angle. 
+
 In other words, a servo receives a PWM with a period of 20 micro seconds most of which is low pulse. While the time that signal is high is from 600 micro seconds to 2400 micro seconds, this spam presents the angle from 0 to 180 degrees. 
+
 Using this logic we control the time value between 600 micro seconds to 2400 micro for every servo to set its position. Then we created the pattern of movements for each servo through trial and error, a set of values to go through with delays in between to pick up the duck and place the duck and repeat.
 
 
 # Results and Discussion
 Our code successfully picked up a duck from our selected square and dropped it behind itself. We found that placing the duck facing sideways (parallel to box), was best for this position to be picked up. We roughly estimated each duck to take ten seconds, so we estimated that we would manage to pick up six ducks during the minute.
+
 In the competition we placed fifth. We managed to pick up five ducks, which is slightly less than our estimate. This was a fairly average score compared to the rest of the groups. During our run, we dropped or failed to pick up a few ducks, and had a slightly delayed start to the code uploading. We believe that we could have successfully transported eight ducks if the robot arm had performed optimally, which is more than our prediction. A score of eight would have been third place. We did successfully make the robot complete its task, and were not in a bad position compared to others, but we could still optimize the design some.
+
 In comparison to the leaderboard groups we noticed a few things we could fix. First of all, we chose to grab the body of the duck, but we noticed that most consistent groups grabbed the head, so this may be the better choice for holding it. Another issue may have been our path, we chose to lift the duck, then turn the base, and drop. One successful strategy was to simply keep the base in the same spot and use the shoulder and elbow servos to flip behind itself. The other high scoring team simply positioned the duck closer, and thus had less distance to travel. Another thing we could alter in the future is increasing the weight on our plywood base, during the competition, it shifted slightly which may be why we failed to pick up a few ducks. One last general change would be to use lock nuts instead of normal nuts. Lock nuts help prevent self loosening when in operation, which is an issue we had when testing.
 
 
